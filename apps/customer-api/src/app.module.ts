@@ -28,6 +28,7 @@ import {
   StoreWallet,
   StoreWalletHistory,
 } from '@libs/db/entities'
+import { Review } from '@libs/db/entities/review/review.entity'
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
@@ -73,6 +74,7 @@ console.log('=============  LOAD ENV : ' + nodeEnv + '  =============')
       Discount,
       Menu,
       Payment,
+      Review,
     ]),
   ],
   controllers: [AppController],
