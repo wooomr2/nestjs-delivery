@@ -10,7 +10,7 @@ export const typeOrmPostgresqlConfig = (config: ConfigService): TypeOrmModuleOpt
   username: config.get('DB_USERNAME'),
   password: config.get('DB_PASSWORD'),
   database: config.get('DB_DATABASE'),
-  synchronize: true,
+  synchronize: true, // CHECK:: Should be false in production
   autoLoadEntities: true,
   logging: ['query', 'error'],
   namingStrategy: new SnakeNamingStrategy(),
