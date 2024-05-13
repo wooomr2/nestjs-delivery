@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
-import { BaseEntity } from './base/base.entity'
-import { DELIVERY_STATUS } from './enums'
+import { BaseEntity } from '../base/base.entity'
+import { DELIVERY_STATUS } from '../enums'
 
 @Entity()
 export class DeliveryRequest extends BaseEntity {

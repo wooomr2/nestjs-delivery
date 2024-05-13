@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
-import { BaseEntity } from './base/base.entity'
-import { DISCOUNT_METHOD, DISCOUNT_TYPE } from './enums'
+import { BaseEntity } from '../base/base.entity'
+import { DISCOUNT_METHOD, DISCOUNT_TYPE } from '../enums'
 
 @Entity()
 export class Discount extends BaseEntity {
