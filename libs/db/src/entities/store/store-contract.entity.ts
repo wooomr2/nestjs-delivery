@@ -2,8 +2,8 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 import { BaseEntity } from '../base/base.entity'
 import { CONTRACT_TYPE } from '../enums'
 
-@Entity({ name: 'store_contracts' })
-export class StoreContractEntity extends BaseEntity {
+@Entity()
+export class StoreContract extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: 'PK' })
   contractId: number
 

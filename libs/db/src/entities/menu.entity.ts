@@ -2,8 +2,8 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 import { BaseEntity } from './base/base.entity'
 import { MENU_STATUS } from './enums'
 
-@Entity({ name: 'menus' })
-export class MenuEntity extends BaseEntity {
+@Entity()
+export class Menu extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: 'PK' })
   menuId: number
 

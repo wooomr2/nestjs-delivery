@@ -1,9 +1,8 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 import { BaseEntity } from '../base/base.entity'
 
-// @Entity({ name: 'checkout_discount_items' })
 @Entity()
-export class CheckoutDiscountItemEntity extends BaseEntity {
+export class CheckoutDiscountItem extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: 'PK' })
   discountItemId: number
 

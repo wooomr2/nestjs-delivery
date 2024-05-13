@@ -1,8 +1,8 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 import { BaseEntity } from './base/base.entity'
 
-@Entity({ name: 'category_store_mappings' })
-export class CategoryStoreMappingEntity extends BaseEntity {
+@Entity()
+export class CategoryStoreMapping extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: 'PK' })
   id: number
 

@@ -2,8 +2,8 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 import { BaseEntity } from '../base/base.entity'
 import { SETTLEMENT_STATUS } from '../enums'
 
-@Entity({ name: 'store_settlements' })
-export class StoreSettlementEntity extends BaseEntity {
+@Entity()
+export class StoreSettlement extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: 'PK' })
   settlementId: number
 

@@ -2,8 +2,8 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 import { BaseEntity } from './base/base.entity'
 import { PAYMENT_METHOD, PAYMENT_STATUS } from './enums'
 
-@Entity({ name: 'payments' })
-export class PaymentEntity extends BaseEntity {
+@Entity()
+export class Payment extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: 'PK' })
   paymentId: number
 

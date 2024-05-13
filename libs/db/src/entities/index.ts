@@ -18,6 +18,7 @@ export * from './rider/rider-wallet-history.entity'
 export * from './rider/rider-wallet.entity'
 export * from './rider/rider.entity'
 
+export * from './store/store-contract.entity'
 export * from './store/store-info.entity'
 export * from './store/store-settlement-history.entity'
 export * from './store/store-settlement.entity'

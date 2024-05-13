@@ -1,8 +1,8 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 import { BaseEntity } from '../base/base.entity'
 
-@Entity({ name: 'order_discount_items' })
-export class OrderDiscountItemEntity extends BaseEntity {
+@Entity()
+export class OrderDiscountItem extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: 'PK' })
   discountItemId: number
 

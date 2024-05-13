@@ -2,8 +2,8 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 import { BaseEntity } from '../base/base.entity'
 import { TRANSPORTATION } from '../enums'
 
-@Entity({ name: 'rider_infos' })
-export class RiderInfoEntity extends BaseEntity {
+@Entity()
+export class RiderInfo extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: 'PK' })
   riderInfoId: number
 

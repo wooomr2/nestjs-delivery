@@ -2,8 +2,8 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 import { BaseEntity } from './base/base.entity'
 import { DISCOUNT_METHOD, DISCOUNT_TYPE } from './enums'
 
-@Entity({ name: 'discounts' })
-export class DiscountEntity extends BaseEntity {
+@Entity()
+export class Discount extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: 'PK' })
   discountId: number
 

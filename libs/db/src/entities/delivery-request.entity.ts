@@ -2,10 +2,8 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 import { BaseEntity } from './base/base.entity'
 import { DELIVERY_STATUS } from './enums'
 
-// Order 생성 => message 수신 후 사장님이 배달요청을 생성
-// Rider가 배달대기중인 배달요청을 수락하면 riderId가 등록되고 status가 DELIVERY_ACCEPTED(배차완료)로 변경
-@Entity({ name: 'delivery_requests' })
-export class DeliveryRequestEntity extends BaseEntity {
+@Entity()
+export class DeliveryRequest extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: 'PK' })
   deliveryRequestId: number
 

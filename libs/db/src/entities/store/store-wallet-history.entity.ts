@@ -2,8 +2,8 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 import { BaseEntity } from '../base/base.entity'
 import { WALLET_JOB_TYPE } from '../enums'
 
-@Entity({ name: 'store_wallet_histories' })
-export class StoreWalletHistoryEntity extends BaseEntity {
+@Entity()
+export class StoreWalletHistory extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: 'PK' })
   id: number
 

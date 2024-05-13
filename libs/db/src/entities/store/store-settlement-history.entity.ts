@@ -2,8 +2,8 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 import { BaseEntity } from '../base/base.entity'
 import { SETTLEMENT_STATUS } from '../enums'
 
-@Entity({ name: 'store_settlement_histories' })
-export class StoreSettlementHistoryEntity extends BaseEntity {
+@Entity()
+export class StoreSettlementHistory extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: 'PK' })
   id: number
 
@@ -25,8 +25,11 @@ export class StoreSettlementHistoryEntity extends BaseEntity {
   @Column({ type: 'decimal', precision: 10, scale: 2, comment: '할인 금액' })
   discountAmount: number
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, comment: '배달 수수료' })
+  @Column({ type: 'decimal', precision: 10, scale: 2, comment: '결제시 고객이 지불한 총 배달비' })
   deliveryFee: number
+
+  @Column({ type: 'decimal', precision: 10, scale: 2, comment: '총 결제금액' })
+  paymentAmount: number
 
   @Column({ type: 'decimal', precision: 10, scale: 2, comment: '서비스 수수료' })
   serviceFee: number
@@ -34,8 +37,8 @@ export class StoreSettlementHistoryEntity extends BaseEntity {
   @Column({ type: 'decimal', precision: 10, scale: 2, comment: '프로모션 수수료' })
   promotionFee: number
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, comment: '총 결제금액' })
-  paymentAmount: number
+  @Column({ type: 'decimal', precision: 10, scale: 2, comment: '결제 정산 수수료' })
+  paymentFee: number
 
   @Column({ type: 'decimal', precision: 10, scale: 2, comment: '정산 금액' })
   settlementAmount: number
