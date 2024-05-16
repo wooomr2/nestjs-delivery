@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsEmail, IsNotEmpty, IsStrongPassword } from 'class-validator'
-import { passwordOption } from '../constants'
+import { passwordOption } from '../../constants'
 
-export class SignupDto {
+export class SigninReq {
   @ApiProperty()
   @IsNotEmpty()
   @IsEmail()
