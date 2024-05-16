@@ -2,11 +2,11 @@ import { ResponseEntity } from '@libs/common/response.entity'
 import { Body, Controller, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { AuthService } from './auth.service'
-import { SigninDto } from './dto/signin.dto'
-import { SignupDto } from './dto/signup.dto'
 import { CurrentPaylaod, CurrentUser, Public } from './decorators'
-import { ICurrentUser } from './types'
+import { SigninReq } from './dto/req/signin.req'
+import { SignupReq } from './dto/req/signup.req.'
 import { RefreshGuard } from './guards'
+import { ICurrentUser } from './types'
 
 @ApiTags('auth')
 @Controller('auth')
@@ -18,7 +18,7 @@ export class AuthController {
   @Public()
   @Post('/sign-up')
   @HttpCode(HttpStatus.CREATED)
-  async signup(@Body() dto: SignupDto) {
+  async signup(@Body() dto: SignupReq) {
     await this.authService.signup(dto)
     return ResponseEntity.OK()
   }
@@ -26,7 +26,7 @@ export class AuthController {
   @Public()
   @Post('/sign-in')
   @HttpCode(HttpStatus.OK)
-  async signin(@Body() dto: SigninDto) {
+  async signin(@Body() dto: SigninReq) {
     const tokens = await this.authService.signin(dto)
     return ResponseEntity.OK_WITH(tokens)
   }

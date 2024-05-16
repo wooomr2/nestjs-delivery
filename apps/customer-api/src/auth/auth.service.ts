@@ -1,4 +1,5 @@
 import { CustomException } from '@libs/common'
+import { Customer } from '@libs/db/entities'
 import { User } from '@libs/db/entities/user/user.entity'
 import { Injectable, InternalServerErrorException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
@@ -6,8 +7,8 @@ import { JwtService } from '@nestjs/jwt'
 import { InjectRepository } from '@nestjs/typeorm'
 import { compare, genSalt, hash } from 'bcrypt'
 import { DataSource, Repository } from 'typeorm'
-import { SigninDto } from './dto/signin.dto'
-import { SignupDto } from './dto/signup.dto'
+import { SigninReq } from './dto/req/signin.req'
+import { SignupReq } from './dto/req/signup.req.'
 import { ICurrentUser, ITokens, JwtPayload } from './types'
 
 @Injectable()
@@ -15,25 +16,41 @@ export class AuthService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(Customer)
+    private readonly customerRepository: Repository<Customer>,
     private readonly dataSource: DataSource,
     private readonly jwtService: JwtService,
     private readonly config: ConfigService,
   ) {}
 
-  async signup(dto: SignupDto): Promise<void> {
-    const emailExists = await this.userRepository.exists({ where: { email: dto.email } })
-    if (emailExists) throw CustomException.emailExists()
+  // TODO:: 주석 삭제할것
+  // 체크 로직을 사용하면 예외를 터트러던,
+  // 아니면 예외라는 값을 반환하던 간에 원하는 상황을 깔끔하게 제어할 수 있습니다.
+  // 하지만 체크 로직만으로는 동시성 문제가 해결이 안되지요. 그런데 생각해보면 이런 동시성 문제는 진짜 거의 터질일이 없습니다.
+  // 따라서 DB에서 동시성 문제가 발생하면(Unique 제약조건 위배) 따로 catch로 잡지말고,
+  // 그냥 공통 예외로 컨트롤러 끝까지 보내서 공통 예외로 처리되도록 만듭니다. 그리고 공통 예외 처리에서 고객에게는 시스템에 문제가 있습니다.
+  // 정도로 뿌리고 대신 디버깅을위해 시스템에 로그로 자세히 남기는 정도로 마무리하면 됩니다^^
+  async signup(dto: SignupReq): Promise<void> {
+    await this.dataSource.transaction(async manager => {
+      const emailExists = await manager.getRepository(User).exists({ where: { email: dto.email } })
+      if (emailExists) throw CustomException.emailExists()
 
-    dto.password = await hash(dto.password, await genSalt(10))
-    const userEntity = this.userRepository.create(dto)
+      dto.password = await hash(dto.password, await genSalt(10))
 
-    await this.userRepository.save(userEntity)
+      const user = await manager.getRepository(User).save(this.userRepository.create(dto))
+
+      await manager
+        .getRepository(Customer)
+        .save(
+          this.customerRepository.create({ userId: user.id, name: dto.name, phone: dto.phone, address: dto.address }),
+        )
+    })
   }
 
-  async signin(dto: SigninDto): Promise<ITokens> {
+  async signin(dto: SigninReq): Promise<ITokens> {
     const user = await this.userRepository.findOne({
-      select: { id: true, email: true, password: true, roles: true },
       where: { email: dto.email },
+      relations: { customer: true },
     })
     if (!user) throw CustomException.invalidUser()
 
@@ -63,12 +80,12 @@ export class AuthService {
     return tokens
   }
 
-  #generateTokens({ id, email, roles }: User): ITokens {
+  #generateTokens({ id, email, roles, customer }: User): ITokens {
     if (!id || !email || !roles || roles.length < 1) {
       throw new InternalServerErrorException('Token generation failed')
     }
 
-    const jwtPayload: JwtPayload = { sub: id, email: email, roles: roles }
+    const jwtPayload: JwtPayload = { sub: id, email: email, roles: roles, serviceId: customer.customerId }
 
     const accessToken = this.jwtService.sign(jwtPayload, {
       secret: this.config.getOrThrow('ACCESS_TOKEN_SECRET'),

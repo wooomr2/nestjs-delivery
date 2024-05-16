@@ -18,6 +18,10 @@ export class CustomException {
     return new BadRequestException({ resCode: ResCode.INVALID_USER, message: ResMessage.INVALID_USER })
   }
 
+  static dormantUser() {
+    return new BadRequestException({ resCode: ResCode.INVALID_USER, message: ResMessage.INVALID_USER })
+  }
+
   static invalidPassword() {
     return new ForbiddenException({ resCode: ResCode.INVALID_PASSWORD, message: ResMessage.INVALID_PASSWORD })
   }
