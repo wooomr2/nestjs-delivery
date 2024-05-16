@@ -25,16 +25,18 @@ import {
   StoreSettlementHistory,
   StoreWallet,
   StoreWalletHistory,
+  User,
 } from '@libs/db/entities'
 import { Review } from '@libs/db/entities/review/review.entity'
-import { Module, ValidationPipe } from '@nestjs/common'
+import { Module, Scope, ValidationPipe } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
-import { APP_FILTER, APP_GUARD, APP_PIPE } from '@nestjs/core'
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { AuthModule } from './auth/auth.module'
 import { JwtAccessGuard } from './auth/guards'
+import { LogInterceptor } from './common/interceptors/log.interceptor'
 import { envValidation } from './validations/env.validation'
 
 const nodeEnv = process.env.NODE_ENV || 'development'
@@ -74,6 +76,7 @@ console.log('=============  LOAD ENV : ' + nodeEnv + '  =============')
       Menu,
       Payment,
       Review,
+      User,
     ]),
     AuthModule,
   ],
@@ -91,6 +94,11 @@ console.log('=============  LOAD ENV : ' + nodeEnv + '  =============')
     {
       provide: APP_PIPE,
       useValue: new ValidationPipe({ whitelist: true, transform: true }),
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      scope: Scope.REQUEST,
+      useClass: LogInterceptor,
     },
   ],
 })
