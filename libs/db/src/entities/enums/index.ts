@@ -1,22 +1,17 @@
-export enum CUSTOMER_STATUS {
+export enum ROLE {
+  CUSTOMER = 'CUSTOMER',
+  RIDER = 'RIDER',
+  STROE = 'STORE',
+  ADMIN = 'ADMIN',
+}
+
+export enum USER_STATUS {
   ACTIVE = 'ACTIVE',
   DORMANT = 'DORMANT',
   WITHDRAWAL = 'WITHDRAWAL',
 }
 
-export enum CUSTOMER_ROLE {
-  BASIC = 'BASIC',
-}
-
-export enum RIDER_STATUS {
-  ACTIVE = 'ACTIVE',
-  INACTIVE = 'INACTIVE',
-}
-
-export enum RIDER_ROLE {
-  BASIC = 'BASIC',
-}
-
+// TODO:: 각 user별 role은 구현할 때 추가할 것
 export enum STORE_STATUS {
   INIT = 'INIT',
   READY = 'READY',

@@ -6,6 +6,9 @@ export class CategoryStoreMapping extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: 'PK' })
   id: number
 
-  @Column({ comment: 'PK' })
+  @Column({ comment: 'FK' })
   categoryId: number
+
+  @Column({ comment: 'FK' })
+  storeId: number
 }

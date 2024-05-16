@@ -17,19 +17,19 @@ export enum ResCode {
 }
 
 export enum ResMessage {
-  OK = 'OK',
+  OK = '성공.',
 
-  NOT_FOUND_ITEM = 'not found',
+  NOT_FOUND_ITEM = '찾을 수 없습니다.',
 
-  EMAIL_EXISTS = 'email exists',
-  INVALID_USER = 'invalid user',
-  INVALID_PASSWORD = 'invalid password',
-  ACCESS_DENIED = 'access denied',
+  EMAIL_EXISTS = '이미 존재하는 이메일입니다.',
+  INVALID_USER = '유저 정보가 유효하지 않습니다.',
+  INVALID_PASSWORD = '패스워드가 유효하지 않습니다.',
+  ACCESS_DENIED = '접근이 거부되었습니다.',
 
-  PRODUCT_IN_USE = 'product is in use',
-  OUT_OF_STOCK = 'out of stock',
+  PRODUCT_IN_USE = '이미 사용중인 상품입니다.',
+  OUT_OF_STOCK = '재고가 부족합니다.',
 
-  REVIEW_EXISTS = 'already reviewed this product',
+  REVIEW_EXISTS = '이미 존재하는 리뷰 입니다',
 
-  INVALID_ORDER_STATUS = 'invalid order. Order already status',
+  INVALID_ORDER_STATUS = '잘몬된 주문 상태입니다.',
 }

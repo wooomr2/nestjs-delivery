@@ -1,29 +1,30 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 import { BaseEntity } from '../base/base.entity'
-import { RIDER_ROLE, RIDER_STATUS } from '../enums'
+import { TRANSPORTATION } from '../enums'
 
 @Entity()
 export class Rider extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: 'PK' })
   riderId: number
 
-  @Column({ unique: true, comment: '이메일' })
-  email: string
+  @Column({ unique: true, comment: 'FK. 유저 id' })
+  userId: string
 
-  @Column({ comment: '비밀번호' })
-  password: string
+  @Column({ comment: '핸드폰번호' })
+  phone: string
 
-  @Column({
-    type: 'enum',
-    enum: RIDER_STATUS,
-    default: RIDER_STATUS.ACTIVE,
-    comment: '상태: ACTIVE(활성화), INACTIVE(비활성화)',
-  })
-  status: RIDER_STATUS
+  @Column({ type: 'enum', enum: TRANSPORTATION, comment: '배달수단' })
+  transportation: TRANSPORTATION
 
-  @Column({ type: 'enum', enum: RIDER_ROLE, default: RIDER_ROLE.BASIC })
-  role: RIDER_ROLE
+  @Column({ comment: '배달지, 배달구역' })
+  deliveryZone: string
 
-  @Column({ type: String, nullable: true })
-  refreshToken: string | null
+  @Column({ comment: '은행 식별 코드' })
+  bankCode: string
+
+  @Column({ comment: '은행계좌' })
+  bankAccount: string
+
+  @Column({ comment: '은행명' })
+  bankAccountName: string
 }
