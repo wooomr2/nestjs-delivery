@@ -1,6 +1,8 @@
 import { HttpExceptionFilter } from '@libs/common/filters'
 import { DbModule } from '@libs/db/db.module'
 import {
+  Cart,
+  CartItem,
   Category,
   CategoryStoreMapping,
   Checkout,
@@ -38,6 +40,7 @@ import { AuthModule } from './auth/auth.module'
 import { JwtAccessGuard } from './auth/guards'
 import { LogInterceptor } from './common/interceptors/log.interceptor'
 import { envValidation } from './validations/env.validation'
+import { CartModule } from './cart/cart.module'
 
 const nodeEnv = process.env.NODE_ENV || 'development'
 console.log('=============  LOAD ENV : ' + nodeEnv + '  =============')
@@ -51,6 +54,8 @@ console.log('=============  LOAD ENV : ' + nodeEnv + '  =============')
     DbModule,
 
     TypeOrmModule.forFeature([
+      Cart,
+      CartItem,
       Checkout,
       CheckoutItem,
       CheckoutDiscountItem,
@@ -79,6 +84,7 @@ console.log('=============  LOAD ENV : ' + nodeEnv + '  =============')
       User,
     ]),
     AuthModule,
+    CartModule,
   ],
   controllers: [AppController],
   providers: [
