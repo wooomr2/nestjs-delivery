@@ -50,7 +50,6 @@ export class AuthService {
   async signin(dto: SigninReq): Promise<ITokens> {
     const user = await this.userRepository.findOne({
       where: { email: dto.email },
-      relations: { customer: true },
     })
     if (!user) throw CustomException.invalidUser()
 
@@ -80,12 +79,12 @@ export class AuthService {
     return tokens
   }
 
-  #generateTokens({ id, email, roles, customer }: User): ITokens {
+  #generateTokens({ id, email, roles }: User): ITokens {
     if (!id || !email || !roles || roles.length < 1) {
       throw new InternalServerErrorException('Token generation failed')
     }
 
-    const jwtPayload: JwtPayload = { sub: id, email: email, roles: roles, serviceId: customer.customerId }
+    const jwtPayload: JwtPayload = { sub: id, email: email, roles: roles }
 
     const accessToken = this.jwtService.sign(jwtPayload, {
       secret: this.config.getOrThrow('ACCESS_TOKEN_SECRET'),

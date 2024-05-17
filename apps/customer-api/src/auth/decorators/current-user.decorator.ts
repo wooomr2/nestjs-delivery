@@ -9,7 +9,6 @@ export const CurrentUser = createParamDecorator(
       id: request.user.sub,
       email: request.user.email,
       roles: request.user.roles,
-      serviceId: request.user.serviceId,
     }
     console.log('currentUser', currentUser)
     return currentUser
