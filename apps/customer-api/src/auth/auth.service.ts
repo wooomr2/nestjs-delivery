@@ -24,12 +24,10 @@ export class AuthService {
   ) {}
 
   // TODO:: 주석 삭제할것
-  // 체크 로직을 사용하면 예외를 터트러던,
-  // 아니면 예외라는 값을 반환하던 간에 원하는 상황을 깔끔하게 제어할 수 있습니다.
-  // 하지만 체크 로직만으로는 동시성 문제가 해결이 안되지요. 그런데 생각해보면 이런 동시성 문제는 진짜 거의 터질일이 없습니다.
+  // 체크 로직만으로는 동시성 문제가 해결x. But 회원가입에서 이런 동시성 문제는 진짜 거의 터질일이 없습니다.
   // 따라서 DB에서 동시성 문제가 발생하면(Unique 제약조건 위배) 따로 catch로 잡지말고,
   // 그냥 공통 예외로 컨트롤러 끝까지 보내서 공통 예외로 처리되도록 만듭니다. 그리고 공통 예외 처리에서 고객에게는 시스템에 문제가 있습니다.
-  // 정도로 뿌리고 대신 디버깅을위해 시스템에 로그로 자세히 남기는 정도로 마무리하면 됩니다^^
+  // 정도로 뿌리고 대신 디버깅을위해 시스템에 로그로 자세히 남기는 정도로 마무리하는게 best.
   async signup(dto: SignupReq): Promise<void> {
     await this.dataSource.transaction(async manager => {
       const emailExists = await manager.getRepository(User).exists({ where: { email: dto.email } })
