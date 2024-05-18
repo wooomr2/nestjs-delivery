@@ -22,7 +22,7 @@ export enum ResCode {
 export enum ResMessage {
   OK = '성공.',
 
-  NOT_FOUND_ITEM = '찾을 수 없습니다.',
+  NOT_FOUND_ITEM = '을 찾을 수 없습니다.',
 
   EMAIL_EXISTS = '이미 존재하는 이메일입니다.',
 
