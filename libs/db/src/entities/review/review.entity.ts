@@ -4,7 +4,7 @@ import { BaseEntity } from '../base/base.entity'
 @Entity()
 export class Review extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: 'PK' })
-  id: number
+  reviewId: number
 
   @Column({ comment: 'FK' })
   customerId: string
