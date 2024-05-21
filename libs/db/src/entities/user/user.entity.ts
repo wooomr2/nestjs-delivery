@@ -20,7 +20,7 @@ export class User extends BaseEntity {
     enum: ROLE,
     array: true,
     default: [ROLE.CUSTOMER],
-    comment: '상태: CUSTOMER, RIDER, STORE, ADMIN',
+    comment: '권한: CUSTOMER, RIDER, STORE, ADMIN',
   })
   roles: ROLE[]
 

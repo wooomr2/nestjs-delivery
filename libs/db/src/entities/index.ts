@@ -8,6 +8,7 @@ export * from './checkout/checkout.entity'
 export * from './customer/customer.entity'
 
 export * from './delivery-request/delivery-request.entity'
+export * from './delivery-request/delivery-request-rider-mapping.entity'
 
 export * from './discount/discount.entity'
 

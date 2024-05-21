@@ -10,6 +10,9 @@ export class Store extends BaseEntity {
   @Column({ unique: true, comment: 'FK. 유저 id' })
   userId: string
 
+  @Column({ comment: 'FK 리뷰id' })
+  reviewId: number
+
   @Column({ comment: '사업자 번호' })
   businessNo: string
 
@@ -56,8 +59,4 @@ export class Store extends BaseEntity {
     comment: '[INIT(신규매장 준비중) READY(오픈 준비중) SALE(판매중) CLOSE(판매종료)]',
   })
   status: STORE_STATUS
-
-  // TODO:: 리뷰 별도로 빼자
-  @Column({ comment: '평점' })
-  reviewGrade: number
 }

@@ -16,9 +16,6 @@ export class DeliveryRequest extends BaseEntity {
   @Column({ comment: 'FK' })
   customerId: number
 
-  @Column({ type: Number, nullable: true, comment: '배송자 ID' })
-  riderId?: number | null
-
   @Column({ comment: '매장 주소' })
   storeAddress: string
 
