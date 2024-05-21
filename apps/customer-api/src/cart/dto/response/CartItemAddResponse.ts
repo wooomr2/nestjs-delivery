@@ -1,7 +1,8 @@
+import { CartItem } from '@libs/db/entities'
 import { ApiProperty } from '@nestjs/swagger'
 import { IsNotEmpty } from 'class-validator'
 
-export class AddCartReq {
+export class CartItemAddResponse {
   @ApiProperty()
   @IsNotEmpty()
   storeId: number
@@ -12,9 +13,11 @@ export class AddCartReq {
 
   @ApiProperty()
   @IsNotEmpty()
-  customerId: number
-
-  @ApiProperty()
-  @IsNotEmpty()
   quantity: number
+
+  constructor(cartItem: CartItem) {
+    this.storeId = cartItem.storeId
+    this.menuId = cartItem.menuId
+    this.quantity = cartItem.quantity
+  }
 }

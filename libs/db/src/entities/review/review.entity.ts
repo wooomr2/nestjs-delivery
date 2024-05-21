@@ -7,10 +7,10 @@ export class Review extends BaseEntity {
   reviewId: number
 
   @Column({ comment: 'FK' })
-  customerId: string
+  storeId: number
 
   @Column({ comment: 'FK' })
-  storeId: number
+  customerId: string
 
   @Column({ comment: '별점' })
   rating: number

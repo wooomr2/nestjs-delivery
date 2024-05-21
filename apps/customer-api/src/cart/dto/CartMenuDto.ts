@@ -12,7 +12,7 @@ export class CartMenuDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  menuNmae: string
+  menuName: string
 
   @ApiProperty()
   @IsNotEmpty()
@@ -25,15 +25,4 @@ export class CartMenuDto {
   @ApiProperty()
   @IsNotEmpty()
   totalPrice: number
-
-  static fromEntity(cartItem: CartMenu): CartMenuDto {
-    return {
-      cartItemId: cartItem.cartItemId,
-      menuId: cartItem.menuId,
-      menuNmae: cartItem.menuName,
-      menuImageUrl: cartItem.menuImageUrl,
-      quantity: cartItem.quantity,
-      totalPrice: cartItem.totalPrice,
-    }
-  }
 }

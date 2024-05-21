@@ -3,11 +3,12 @@ import { Cart, CartItem } from '@libs/db/entities'
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { AddCartReq } from './dto/req/add-cart.req'
-import { CartQueryRequest } from './dto/req/cartQuery.req'
+import { CartItemAddRequest } from './dto/request/CartItemAddRequest'
 
 @Injectable()
 export class CartService {
+  private INIT_QUANTITY = 1
+
   constructor(
     @InjectRepository(Cart)
     private readonly cartRepository: Repository<Cart>,
@@ -15,35 +16,34 @@ export class CartService {
     private readonly cartItemRepository: Repository<CartItem>,
   ) {}
 
-  async upsert(dto: AddCartReq) {
-    const cart = await this.cartRepository.findOneBy({ customerId: dto.customerId })
-    if (!cart) {
-      const cartCreated = await this.cartRepository.save(this.cartRepository.create({ customerId: dto.customerId }))
-      await this.#addMenuToCart(cartCreated, dto)
-    } else {
-      await this.#addMenuToCart(cart, dto)
-    }
-  }
+  async upsert(dto: CartItemAddRequest): Promise<CartItem> {
+    const cart = await this.cartRepository.save(this.cartRepository.create({ customerId: dto.customerId }))
 
-  async #addMenuToCart(cart: Cart, dto: AddCartReq) {
     const cartItem = await this.cartItemRepository.findOneBy({
       cartId: cart.cartId,
       menuId: dto.menuId,
       storeId: dto.storeId,
     })
 
+    let result: CartItem | null = null
     if (!cartItem) {
-      await this.cartItemRepository.save(this.cartItemRepository.create({ cartId: cart.cartId, ...dto }))
+      result = await this.cartItemRepository.save(this.cartItemRepository.create({ cartId: cart.cartId, ...dto }))
     } else {
       cartItem.quantity += dto.quantity
-      await this.cartItemRepository.save(cartItem)
+      result = await this.cartItemRepository.save(cartItem)
     }
+
+    return result
   }
 
-  async findByCustomerId(cartQueryRequest: CartQueryRequest): Promise<Cart> {
-    const cart = await this.cartRepository.findOneBy({ customerId: cartQueryRequest.customerId })
+  async findByCustomerId(customerId: number): Promise<{ cart: Cart; cartItems: CartItem[] }> {
+    const cart = await this.cartRepository.findOneBy({ customerId })
     if (!cart) throw CustomException.notFound('cart')
-    const cartItems = await this.cartItemRepository.findBy({ cartId: cart.cartId })
+
+    const cartItems = await this.cartItemRepository.find({
+      where: { cartId: cart.cartId },
+      relations: { menu: true },
+    })
 
     return { cart, cartItems }
   }

@@ -8,7 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { compare, genSalt, hash } from 'bcrypt'
 import { DataSource, Repository } from 'typeorm'
 import { SigninReq } from './dto/req/signin.req'
-import { SignupReq } from './dto/req/signup.req.'
+import { SignupReq } from './dto/req/signup.req'
 import { ICurrentUser, ITokens, JwtPayload } from './types'
 
 @Injectable()
