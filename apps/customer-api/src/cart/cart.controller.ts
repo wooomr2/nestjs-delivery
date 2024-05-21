@@ -2,11 +2,11 @@ import { ResponseEntity } from '@libs/common/response.entity'
 import { Body, Controller, Get, Post, Put, Query } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import { CartService } from './cart.service'
-import { CartItemAddRequest } from './dto/request/CartItemAddRequest'
-import { CartItemRemoveRequest } from './dto/request/CartItemRemoveRequest'
-import { CartListQueryRequest } from './dto/request/CartListQueryRequest'
-import { CartItemAddResponse } from './dto/response/CartItemAddResponse'
-import { CartListResponse } from './dto/response/CartListResponse'
+import { CartItemAddRequest } from './dto/req/CartItemAddRequest'
+import { CartItemRemoveRequest } from './dto/req/CartItemRemoveRequest'
+import { CartListQueryRequest } from './dto/req/CartListQueryRequest'
+import { CartItemAddResponse } from './dto/res/CartItemAddResponse'
+import { CartListResponse } from './dto/res/CartListResponse'
 
 @ApiTags('carts')
 @Controller('carts')
