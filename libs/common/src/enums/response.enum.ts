@@ -17,6 +17,8 @@ export enum ResCode {
   REVIEW_EXISTS = 'REVIEW_EXISTS',
 
   INVALID_ORDER_STATUS = 'INVALID_ORDER_STATUS',
+
+  NOT_YOUR_CART_ITEM = 'NOT_YOUR_CART_ITEM',
 }
 
 export enum ResMessage {
@@ -38,4 +40,5 @@ export enum ResMessage {
   REVIEW_EXISTS = '이미 존재하는 리뷰 입니다',
 
   INVALID_ORDER_STATUS = '잘몬된 주문 상태입니다.',
+  NOT_YOUR_CART_ITEM = '본인의 장바구니 아이템이 아닙니다.',
 }

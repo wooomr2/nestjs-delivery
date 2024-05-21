@@ -1,12 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsNotEmpty } from 'class-validator'
+import { IsNotEmpty, IsNumber } from 'class-validator'
 
 export class CartItemRemoveRequest {
   @ApiProperty()
   @IsNotEmpty()
-  cartItemId: number
+  @IsNumber()
+  customerId: number
 
   @ApiProperty()
   @IsNotEmpty()
-  customerId: number
+  @IsNumber()
+  cartItemId: number
 }

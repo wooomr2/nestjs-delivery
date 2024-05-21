@@ -1,4 +1,3 @@
-import { CartMenuDto } from 'apps/customer-api/src/cart/dto/CartMenuDto'
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { BaseEntity } from '../base/base.entity'
 import { Menu } from '../menu/menu.entity'
@@ -21,17 +20,6 @@ export class CartItem extends BaseEntity {
   quantity: number
 
   @OneToOne(() => Menu)
-  @JoinColumn()
+  @JoinColumn({ name: 'menu_id' })
   menu: Menu
-
-  get cartMenuDto(): CartMenuDto {
-    return {
-      cartItemId: this.cartItemId,
-      menuId: this.menuId,
-      menuName: this.menu.name,
-      menuImageUrl: this.menu.images[0],
-      quantity: this.quantity,
-      totalPrice: +(this.menu.price * this.quantity).toFixed(2),
-    }
-  }
 }

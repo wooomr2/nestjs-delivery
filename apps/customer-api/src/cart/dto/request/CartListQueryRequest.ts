@@ -5,6 +5,8 @@ import { IsNotEmpty } from 'class-validator'
 export class CartListQueryRequest {
   @ApiProperty()
   @IsNotEmpty()
-  @Transform(value => Number(value))
+  @Transform(v => {
+    return parseInt(v.obj['customerId'])
+  })
   customerId: number
 }

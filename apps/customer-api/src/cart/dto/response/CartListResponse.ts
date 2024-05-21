@@ -14,8 +14,10 @@ export class CartListResponse {
   @ValidateNested()
   cartMenuList: CartMenuDto[]
 
-  constructor(customerId: number, cartMenuList: CartMenuDto[]) {
-    this.customerId = customerId
-    this.cartMenuList = cartMenuList
+  static from(customerId: number, cartMenuList: CartMenuDto[]) {
+    const response = new CartListResponse()
+    response.customerId = customerId
+    response.cartMenuList = cartMenuList
+    return response
   }
 }

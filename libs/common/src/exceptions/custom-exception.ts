@@ -41,4 +41,8 @@ export class CustomException {
   static invalidOrderStatus() {
     return new BadRequestException({ resCode: ResCode.INVALID_ORDER_STATUS, message: ResMessage.INVALID_ORDER_STATUS })
   }
+
+  static notYourCartItem() {
+    return new ForbiddenException({ resCode: ResCode.NOT_YOUR_CART_ITEM, message: ResMessage.NOT_YOUR_CART_ITEM })
+  }
 }
