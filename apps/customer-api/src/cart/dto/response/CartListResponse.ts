@@ -1,3 +1,4 @@
+import { CartItem } from '@libs/db/entities'
 import { ApiProperty } from '@nestjs/swagger'
 import { Type } from 'class-transformer'
 import { IsNotEmpty, ValidateNested } from 'class-validator'
@@ -14,7 +15,9 @@ export class CartListResponse {
   @ValidateNested()
   cartMenuList: CartMenuDto[]
 
-  static from(customerId: number, cartMenuList: CartMenuDto[]) {
+  static from(customerId: number, cartItems: CartItem[]) {
+    const cartMenuList = cartItems.map(cartItem => CartMenuDto.from(cartItem))
+
     const response = new CartListResponse()
     response.customerId = customerId
     response.cartMenuList = cartMenuList

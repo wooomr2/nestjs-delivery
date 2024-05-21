@@ -2,7 +2,6 @@ import { ResponseEntity } from '@libs/common/response.entity'
 import { Body, Controller, Get, Post, Put, Query } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import { CartService } from './cart.service'
-import { CartMenuDto } from './dto/CartMenuDto'
 import { CartItemAddRequest } from './dto/request/CartItemAddRequest'
 import { CartItemRemoveRequest } from './dto/request/CartItemRemoveRequest'
 import { CartListQueryRequest } from './dto/request/CartListQueryRequest'
@@ -26,9 +25,8 @@ export class CartController {
   @Get('/')
   async list(@Query() dto: CartListQueryRequest) {
     const { cart, cartItems } = await this.cartService.findByCustomerId(dto.customerId)
-    const menuDtos = cartItems.map(cartItem => CartMenuDto.from(cartItem))
 
-    return ResponseEntity.OK_WITH(CartListResponse.from(cart.customerId, menuDtos))
+    return ResponseEntity.OK_WITH(CartListResponse.from(cart.customerId, cartItems))
   }
 
   @ApiOperation({ summary: '장바구니 아이템 제거' })
