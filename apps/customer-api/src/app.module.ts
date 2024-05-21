@@ -1,3 +1,4 @@
+import { LogInterceptor } from '@libs/common'
 import { HttpExceptionFilter } from '@libs/common/filters'
 import { DbModule } from '@libs/db/db.module'
 import {
@@ -40,7 +41,6 @@ import { AppService } from './app.service'
 import { AuthModule } from './auth/auth.module'
 import { JwtAccessGuard } from './auth/guards'
 import { CartModule } from './cart/cart.module'
-import { LogInterceptor } from './common/interceptors/log.interceptor'
 import { envValidation } from './validations/env.validation'
 
 const nodeEnv = process.env.NODE_ENV || 'development'
