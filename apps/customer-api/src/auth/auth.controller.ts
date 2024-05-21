@@ -4,7 +4,7 @@ import { ApiTags } from '@nestjs/swagger'
 import { AuthService } from './auth.service'
 import { CurrentPaylaod, CurrentUser, Public } from './decorators'
 import { SigninReq } from './dto/req/signin.req'
-import { SignupReq } from './dto/req/signup.req.'
+import { SignupReq } from './dto/req/signup.req'
 import { RefreshGuard } from './guards'
 import { ICurrentUser } from './types'
 

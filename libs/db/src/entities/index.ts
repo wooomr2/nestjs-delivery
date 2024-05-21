@@ -1,3 +1,6 @@
+export * from './cart/cart-item.entity'
+export * from './cart/cart.entity'
+
 export * from './category/category-store-mapping.entity'
 export * from './category/category.entity'
 

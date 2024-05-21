@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { AuthController } from '../auth.controller'
 import { AuthService } from '../auth.service'
-import { SignupReq } from '../dto/req/signup.req.'
+import { SignupReq } from '../dto/req/signup.req'
 
 jest.mock('../auth.service.ts')
 

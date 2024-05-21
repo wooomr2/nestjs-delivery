@@ -1,6 +1,8 @@
 import { HttpExceptionFilter } from '@libs/common/filters'
 import { DbModule } from '@libs/db/db.module'
 import {
+  Cart,
+  CartItem,
   Category,
   CategoryStoreMapping,
   Checkout,
@@ -8,6 +10,7 @@ import {
   CheckoutItem,
   Customer,
   DeliveryRequest,
+  DeliveryRequestRiderMapping,
   Discount,
   Menu,
   Order,
@@ -28,7 +31,7 @@ import {
   User,
 } from '@libs/db/entities'
 import { Review } from '@libs/db/entities/review/review.entity'
-import { Module, Scope, ValidationPipe } from '@nestjs/common'
+import { ClassSerializerInterceptor, Module, Scope, ValidationPipe } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
 import { TypeOrmModule } from '@nestjs/typeorm'
@@ -36,6 +39,7 @@ import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { AuthModule } from './auth/auth.module'
 import { JwtAccessGuard } from './auth/guards'
+import { CartModule } from './cart/cart.module'
 import { LogInterceptor } from './common/interceptors/log.interceptor'
 import { envValidation } from './validations/env.validation'
 
@@ -49,8 +53,9 @@ console.log('=============  LOAD ENV : ' + nodeEnv + '  =============')
       envFilePath: [`.env.${nodeEnv}`],
     }),
     DbModule,
-
     TypeOrmModule.forFeature([
+      Cart,
+      CartItem,
       Checkout,
       CheckoutItem,
       CheckoutDiscountItem,
@@ -77,8 +82,11 @@ console.log('=============  LOAD ENV : ' + nodeEnv + '  =============')
       Payment,
       Review,
       User,
+      DeliveryRequest,
+      DeliveryRequestRiderMapping,
     ]),
     AuthModule,
+    CartModule,
   ],
   controllers: [AppController],
   providers: [
@@ -94,6 +102,11 @@ console.log('=============  LOAD ENV : ' + nodeEnv + '  =============')
     {
       provide: APP_PIPE,
       useValue: new ValidationPipe({ whitelist: true, transform: true }),
+    },
+    // Serialize response
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ClassSerializerInterceptor,
     },
     {
       provide: APP_INTERCEPTOR,

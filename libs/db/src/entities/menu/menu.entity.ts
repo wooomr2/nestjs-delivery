@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { BaseEntity } from '../base/base.entity'
 import { MENU_STATUS } from '../enums'
+import { CartItem } from '../cart/cart-item.entity'
 
 @Entity()
 export class Menu extends BaseEntity {
@@ -24,4 +25,7 @@ export class Menu extends BaseEntity {
 
   @Column({ type: 'enum', enum: MENU_STATUS, comment: '상품 상태' })
   status: MENU_STATUS
+
+  @OneToOne(() => CartItem)
+  cartItem: CartItem
 }
