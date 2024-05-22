@@ -76,7 +76,7 @@ export class CheckoutService {
 
     const discountItems = await this.checkoutDiscountRepository.find({
       where: {
-        checkoutId: In(checkoutItems.map(item => item.itemId)),
+        checkoutId: checkout.checkoutId,
         discount: {
           isAvailable: true,
         },
