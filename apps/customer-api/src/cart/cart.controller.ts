@@ -32,6 +32,8 @@ export class CartController {
   @ApiOperation({ summary: '장바구니 아이템 제거' })
   @Put('/')
   async remove(@Body() dto: CartItemRemoveRequest) {
-    return await this.cartService.remove(dto.customerId, dto.cartItemId)
+    await this.cartService.remove(dto.customerId, dto.cartItemId)
+
+    return ResponseEntity.OK()
   }
 }

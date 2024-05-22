@@ -5,10 +5,10 @@ export class CartItemRemoveRequest {
   @ApiProperty()
   @IsNotEmpty()
   @IsNumber()
-  customerId: number
+  cartItemId: number
 
   @ApiProperty()
   @IsNotEmpty()
   @IsNumber()
-  cartItemId: number
+  customerId: number
 }
