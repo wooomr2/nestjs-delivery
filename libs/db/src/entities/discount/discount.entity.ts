@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { BaseEntity } from '../base/base.entity'
+import { CheckoutDiscountItem } from '../checkout/checkout-discount-item.entity'
 import { DISCOUNT_METHOD, DISCOUNT_TYPE } from '../enums'
 
 @Entity()
@@ -24,4 +25,7 @@ export class Discount extends BaseEntity {
 
   @Column({ type: 'boolean', comment: '활성화 여부' })
   isAvailable: boolean
+
+  @OneToMany(() => CheckoutDiscountItem, c => c.discount)
+  checkoutDiscountItems: CheckoutDiscountItem[]
 }

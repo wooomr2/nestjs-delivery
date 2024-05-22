@@ -19,7 +19,6 @@ export class CartService {
     // cartItem 개수가 많으면 left-join으로 cart info를 중복으로 가져오기에
     // 실제 서비스에 갔을때는 조회 2번 하는 것이 더 좋을 수 있다. 성능비교 필요
     const cart = await this.cartRepository.save(this.cartRepository.create({ customerId: dto.customerId }))
-
     const cartItem = await this.cartItemRepository.findOneBy({
       cartId: cart.cartId,
       menuId: dto.menuId,

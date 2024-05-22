@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { BaseEntity } from '../base/base.entity'
+import { Discount } from '../discount/discount.entity'
 
 @Entity()
 export class CheckoutDiscountItem extends BaseEntity {
@@ -11,4 +12,7 @@ export class CheckoutDiscountItem extends BaseEntity {
 
   @Column({ comment: 'FK' })
   discountId: number
+
+  @ManyToOne(() => Discount, d => d.discountId)
+  discount: Discount
 }

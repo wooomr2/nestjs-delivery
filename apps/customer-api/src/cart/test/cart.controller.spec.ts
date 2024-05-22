@@ -2,8 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { CartController } from '../cart.controller'
 import { CartService } from '../cart.service'
 
-jest.mock('../cart.service')
-
 describe('CartController', () => {
   let cartController: CartController
   let cartService: CartService

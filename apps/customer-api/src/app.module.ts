@@ -42,6 +42,7 @@ import { AuthModule } from './auth/auth.module'
 import { JwtAccessGuard } from './auth/guards'
 import { CartModule } from './cart/cart.module'
 import { envValidation } from './validations/env.validation'
+import { CheckoutModule } from './checkout/checkout.module'
 
 const nodeEnv = process.env.NODE_ENV || 'development'
 console.log('=============  LOAD ENV : ' + nodeEnv + '  =============')
@@ -87,6 +88,7 @@ console.log('=============  LOAD ENV : ' + nodeEnv + '  =============')
     ]),
     AuthModule,
     CartModule,
+    CheckoutModule,
   ],
   controllers: [AppController],
   providers: [
