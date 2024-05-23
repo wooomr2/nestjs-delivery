@@ -1,1 +1,1 @@
-![ERD](https://github.com/wooomr2/nestjs-delivery/assets/92091769/8665b348-9da9-4a72-8aa3-ad34b7a4f4bb)
+![erd](https://github.com/wooomr2/nestjs-delivery/assets/92091769/4f5f81ff-c44d-416f-8f62-70ee97afbb5e)
