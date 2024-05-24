@@ -11,4 +11,4 @@
 ## 배달서비스의 Backend API 구현
 - 통합User 테이블과 [Customer, Rider, Store]의 하위 테이블로 분리하여 설계
 - mono-repo 설정(Entity, 공통 로직을 하나로 관리하기 위해)
-- Guard, Filter, Pipe, Intercepter(SerializeInterceptor...) 종합 연습
+- Guard, Filter, Pipe, Intercepter 종합 연습
