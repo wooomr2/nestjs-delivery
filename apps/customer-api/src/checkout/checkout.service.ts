@@ -54,12 +54,12 @@ export class CheckoutService {
 
       // 4. 할인 생성
       {
-        const discountItems = this.checkoutDiscountRepository.create({
+        const discountItem = this.checkoutDiscountRepository.create({
           checkoutId: checkout.checkoutId,
-          discountId: 0,
+          discountId: dto.discountId,
         })
 
-        await manager.save(CheckoutDiscountItem, discountItems)
+        await manager.save(CheckoutDiscountItem, discountItem)
       }
 
       return checkout
