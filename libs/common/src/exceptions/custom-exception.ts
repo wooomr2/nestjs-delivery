@@ -45,4 +45,8 @@ export class CustomException {
   static notYourCartItem() {
     return new ForbiddenException({ resCode: ResCode.NOT_YOUR_CART_ITEM, message: ResMessage.NOT_YOUR_CART_ITEM })
   }
+
+  static duplicateOrder() {
+    return new BadRequestException({ resCode: ResCode.DUPLICATE_ORDER, message: ResMessage.DUPLICATE_ORDER })
+  }
 }

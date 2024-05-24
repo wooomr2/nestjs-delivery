@@ -26,7 +26,7 @@ export const CurrentCustomer = createParamDecorator(
       customerId: request.user.serviceId,
     }
 
-    console.log('currentUser', currentCustomer)
+    console.log('currentCustomer', currentCustomer)
     return currentCustomer
   },
 )

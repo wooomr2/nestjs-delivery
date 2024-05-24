@@ -2,7 +2,7 @@ import { ResponseEntity } from '@libs/common/response.entity'
 import { Body, Controller, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { AuthService } from './auth.service'
-import { CurrentPaylaod, CurrentUser, Public } from './decorators'
+import { CurrentCustomer, CurrentPaylaod, Public } from './decorators'
 import { SigninReq } from './dto/req/signin.req'
 import { SignupReq } from './dto/req/signup.req'
 import { RefreshGuard } from './guards'
@@ -33,7 +33,7 @@ export class AuthController {
 
   @Post('/logout')
   @HttpCode(HttpStatus.OK)
-  async logout(@CurrentUser() user: ICurrentCustomer) {
+  async logout(@CurrentCustomer() user: ICurrentCustomer) {
     await this.authService.logout(user)
     return ResponseEntity.OK()
   }
@@ -42,7 +42,7 @@ export class AuthController {
   @UseGuards(RefreshGuard)
   @Post('/refresh')
   @HttpCode(HttpStatus.OK)
-  async tokenRefresh(@CurrentUser() user: ICurrentCustomer, @CurrentPaylaod('refreshToken') refreshToken: string) {
+  async tokenRefresh(@CurrentCustomer() user: ICurrentCustomer, @CurrentPaylaod('refreshToken') refreshToken: string) {
     const tokens = await this.authService.tokenRefresh(user, refreshToken)
     return ResponseEntity.OK_WITH(tokens)
   }

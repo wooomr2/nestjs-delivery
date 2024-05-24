@@ -19,6 +19,7 @@ export enum ResCode {
   INVALID_ORDER_STATUS = 'INVALID_ORDER_STATUS',
 
   NOT_YOUR_CART_ITEM = 'NOT_YOUR_CART_ITEM',
+  DUPLICATE_ORDER = 'DUPLICATE_ORDER',
 }
 
 export enum ResMessage {
@@ -41,4 +42,5 @@ export enum ResMessage {
 
   INVALID_ORDER_STATUS = '잘몬된 주문 상태입니다.',
   NOT_YOUR_CART_ITEM = '본인의 장바구니 아이템이 아닙니다.',
+  DUPLICATE_ORDER = '중복된 주문입니다.',
 }
