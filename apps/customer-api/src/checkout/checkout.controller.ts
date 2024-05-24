@@ -2,10 +2,10 @@ import { ResponseEntity } from '@libs/common/response.entity'
 import { Body, Controller, Get, Inject, Param, ParseIntPipe, Post, forwardRef } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import { CurrentCustomer } from '../auth/decorators'
+import { ICurrentCustomer } from '../auth/types'
 import { CartService } from '../cart/cart.service'
 import { CheckoutService } from './checkout.service'
 import { CheckoutRequest } from './dto/req/CheckoutRequest'
-import { ICurrentCustomer } from '../auth/types'
 
 @ApiTags('checkouts')
 @Controller('checkouts')
@@ -20,7 +20,7 @@ export class CheckoutController {
   @Post()
   async create(@Body() dto: CheckoutRequest, @CurrentCustomer() user: ICurrentCustomer) {
     const { cartItems } = await this.cartService.findByCustomerId(user.customerId)
-    const checkout = await this.checkoutService.create(dto, cartItems)
+    const checkout = await this.checkoutService.create(user.customerId, dto, cartItems)
 
     return ResponseEntity.OK_WITH(checkout)
   }

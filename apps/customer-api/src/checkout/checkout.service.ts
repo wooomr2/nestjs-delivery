@@ -2,7 +2,7 @@ import { CustomException } from '@libs/common'
 import { CartItem, Checkout, CheckoutDiscountItem, CheckoutItem, DISCOUNT_METHOD, Discount } from '@libs/db/entities'
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { DataSource, In, Not, Repository } from 'typeorm'
+import { DataSource, Not, Repository } from 'typeorm'
 import { CheckoutDto } from './dto/CheckoutDto'
 import { CheckoutRequest } from './dto/req/CheckoutRequest'
 
@@ -21,7 +21,7 @@ export class CheckoutService {
     private readonly dataSource: DataSource,
   ) {}
 
-  async create(dto: CheckoutRequest, cartItems: CartItem[]): Promise<Checkout> {
+  async create(customerId: number, dto: CheckoutRequest, cartItems: CartItem[]): Promise<Checkout> {
     return await this.dataSource.manager.transaction(async manager => {
       // 1. checkout 생성
       const checkoutEntity = this.checkoutRepository.create({ ...dto })
@@ -30,7 +30,7 @@ export class CheckoutService {
       // 2. 이전 chekcout 삭제
       {
         const removeCheckouts = await manager.getRepository(Checkout).find({
-          where: { checkoutId: Not(checkout.checkoutId), customerId: dto.customerId },
+          where: { checkoutId: Not(checkout.checkoutId), customerId: customerId },
         })
 
         if (removeCheckouts.length > 0) {
