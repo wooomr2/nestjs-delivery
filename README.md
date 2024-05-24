@@ -6,3 +6,8 @@
 
 ## ERD
 ![erd](https://github.com/wooomr2/nestjs-delivery/assets/92091769/4f5f81ff-c44d-416f-8f62-70ee97afbb5e)
+
+
+## 특징
+- 통합User 테이블과 [Customer, Rider, Store]의 하위 테이블로 분리하여 설계
+- mono-repo 설정(Entity, 공통 로직을 하나로 관리하기 위해)
