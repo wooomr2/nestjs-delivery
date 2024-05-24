@@ -9,7 +9,7 @@ import { compare, genSalt, hash } from 'bcrypt'
 import { DataSource, Repository } from 'typeorm'
 import { SigninReq } from './dto/req/signin.req'
 import { SignupReq } from './dto/req/signup.req'
-import { ICurrentUser, ITokens, JwtPayload } from './types'
+import { ICurrentCustomer, ITokens, JwtPayload } from './types'
 
 @Injectable()
 export class AuthService {
@@ -48,26 +48,29 @@ export class AuthService {
   async signin(dto: SigninReq): Promise<ITokens> {
     const user = await this.userRepository.findOne({
       where: { email: dto.email },
+      relations: { customer: true },
     })
     if (!user) throw CustomException.invalidUser()
+    if (!user.customer) throw CustomException.invalidUser()
 
     const matchPassword = await compare(dto.password, user.password)
     if (!matchPassword) throw CustomException.invalidPassword()
 
     const tokens = this.#generateTokens(user)
+
     await this.userRepository.update({ id: user.id }, { refreshToken: tokens.refreshToken })
 
     return tokens
   }
 
-  async logout(currentUser: ICurrentUser): Promise<void> {
+  async logout(currentUser: ICurrentCustomer): Promise<void> {
     await this.userRepository.update({ id: currentUser.id }, { refreshToken: null })
   }
 
-  async tokenRefresh(currentUser: ICurrentUser, refreshToken: string): Promise<ITokens> {
-    const user = await this.userRepository.findOneBy({ id: currentUser.id })
+  async tokenRefresh(currentUser: ICurrentCustomer, refreshToken: string): Promise<ITokens> {
+    const user = await this.userRepository.findOne({ where: { id: currentUser.id }, relations: { customer: true } })
 
-    if (!user || !user.refreshToken || user.refreshToken !== refreshToken) {
+    if (!user || !user.refreshToken || user.refreshToken !== refreshToken || !user.customer) {
       throw CustomException.accessDenied()
     }
 
@@ -77,12 +80,12 @@ export class AuthService {
     return tokens
   }
 
-  #generateTokens({ id, email, roles }: User): ITokens {
+  #generateTokens({ id, email, roles, customer }: User): ITokens {
     if (!id || !email || !roles || roles.length < 1) {
       throw new InternalServerErrorException('Token generation failed')
     }
 
-    const jwtPayload: JwtPayload = { sub: id, email: email, roles: roles }
+    const jwtPayload: JwtPayload = { sub: id, email: email, roles: roles, serviceId: customer.customerId }
 
     const accessToken = this.jwtService.sign(jwtPayload, {
       secret: this.config.getOrThrow('ACCESS_TOKEN_SECRET'),

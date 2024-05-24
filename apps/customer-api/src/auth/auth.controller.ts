@@ -6,7 +6,7 @@ import { CurrentPaylaod, CurrentUser, Public } from './decorators'
 import { SigninReq } from './dto/req/signin.req'
 import { SignupReq } from './dto/req/signup.req'
 import { RefreshGuard } from './guards'
-import { ICurrentUser } from './types'
+import { ICurrentCustomer } from './types'
 
 @ApiTags('auth')
 @Controller('auth')
@@ -33,7 +33,7 @@ export class AuthController {
 
   @Post('/logout')
   @HttpCode(HttpStatus.OK)
-  async logout(@CurrentUser() user: ICurrentUser) {
+  async logout(@CurrentUser() user: ICurrentCustomer) {
     await this.authService.logout(user)
     return ResponseEntity.OK()
   }
@@ -42,7 +42,7 @@ export class AuthController {
   @UseGuards(RefreshGuard)
   @Post('/refresh')
   @HttpCode(HttpStatus.OK)
-  async tokenRefresh(@CurrentUser() user: ICurrentUser, @CurrentPaylaod('refreshToken') refreshToken: string) {
+  async tokenRefresh(@CurrentUser() user: ICurrentCustomer, @CurrentPaylaod('refreshToken') refreshToken: string) {
     const tokens = await this.authService.tokenRefresh(user, refreshToken)
     return ResponseEntity.OK_WITH(tokens)
   }

@@ -1,5 +1,5 @@
 import { ExecutionContext, createParamDecorator } from '@nestjs/common'
-import { ICurrentUser, JwtPayloadWithRt } from '../types'
+import { ICurrentCustomer, ICurrentUser, JwtPayloadWithRt } from '../types'
 
 export const CurrentUser = createParamDecorator(
   (data: keyof JwtPayloadWithRt, context: ExecutionContext): ICurrentUser => {
@@ -12,5 +12,21 @@ export const CurrentUser = createParamDecorator(
     }
     console.log('currentUser', currentUser)
     return currentUser
+  },
+)
+
+export const CurrentCustomer = createParamDecorator(
+  (data: keyof JwtPayloadWithRt, context: ExecutionContext): ICurrentCustomer => {
+    const request = context.switchToHttp().getRequest()
+
+    const currentCustomer: ICurrentCustomer = {
+      id: request.user.sub,
+      email: request.user.email,
+      roles: request.user.roles,
+      customerId: request.user.serviceId,
+    }
+
+    console.log('currentUser', currentCustomer)
+    return currentCustomer
   },
 )
