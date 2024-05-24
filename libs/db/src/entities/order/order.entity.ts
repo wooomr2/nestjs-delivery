@@ -1,6 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { BaseEntity } from '../base/base.entity'
 import { ORDER_STATUS } from '../enums'
+import { OrderDiscountItem } from './order-discount-item.entity'
+import { OrderItem } from './order-item.entity'
 
 @Entity()
 export class Order extends BaseEntity {
@@ -33,4 +35,10 @@ export class Order extends BaseEntity {
 
   @Column({ type: 'enum', enum: ORDER_STATUS, default: ORDER_STATUS.PROCESSING })
   status: ORDER_STATUS
+
+  @OneToMany(() => OrderItem, orderItem => orderItem.order)
+  orderItems: OrderItem[]
+
+  @OneToOne(() => OrderDiscountItem, orderDiscountItem => orderDiscountItem.order)
+  orderDiscountItem: OrderDiscountItem
 }

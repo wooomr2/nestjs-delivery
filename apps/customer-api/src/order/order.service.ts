@@ -14,7 +14,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { DataSource, In, Repository } from 'typeorm'
 import { v4 as uuidv4 } from 'uuid'
-import { ICurrentCustomer } from '../auth/types'
+import { OrderDetailDto } from './dto/OrderDetailDto'
 import { CreateOrderReq } from './dto/req/CreateOrderReq'
 
 @Injectable()
@@ -37,7 +37,7 @@ export class OrderService {
     private readonly dataSource: DataSource,
   ) {}
 
-  async create(dto: CreateOrderReq, user: ICurrentCustomer): Promise<Order> {
+  async create(dto: CreateOrderReq, customerId: number): Promise<Order> {
     const checkout = await this.checkoutRepository.findOneBy({ checkoutId: dto.checkoutId })
     if (!checkout) throw CustomException.notFound('checkout')
 
@@ -64,7 +64,13 @@ export class OrderService {
     const discountAmount = discountItem?.discount.value || 0
 
     return await this.dataSource.transaction(async manager => {
-      const orderEntity = this.#createOrder(user, checkout, orderAmount, discountAmount, orderAmount - discountAmount)
+      const orderEntity = this.#createOrder(
+        customerId,
+        checkout,
+        orderAmount,
+        discountAmount,
+        orderAmount - discountAmount,
+      )
       const order = await manager.getRepository(Order).save(orderEntity)
 
       const orderItems = this.#createOrderItems(order, checkoutItems)
@@ -82,19 +88,19 @@ export class OrderService {
     })
   }
 
-  /** 주문 생성 */
+  /** 주문 Entity 생성 */
   #createOrder(
-    user: ICurrentCustomer,
+    customerId: number,
     checkout: Checkout,
     orderAmount: number,
     discountAmount: number,
     totalAmount: number,
-  ) {
+  ): Order {
     const order = this.orderRepository.create({
       orderUUID: uuidv4(),
       checkoutId: checkout.checkoutId,
       storeId: checkout.storeId,
-      customerId: user.customerId,
+      customerId: customerId,
       orderAmount,
       deliveryFee: 0,
       discountAmount: discountAmount,
@@ -105,7 +111,8 @@ export class OrderService {
     return order
   }
 
-  #createOrderItems(order: Order, checkoutItems: CheckoutItem[]) {
+  /** 주문아이템 Entity 생성 */
+  #createOrderItems(order: Order, checkoutItems: CheckoutItem[]): OrderItem[] {
     const orderItems = checkoutItems.map(item =>
       this.orderItemRepository.create({
         orderId: order.orderId,
@@ -116,5 +123,26 @@ export class OrderService {
     )
 
     return orderItems
+  }
+
+  async getOrderDetail(orderId: number, customerId: number): Promise<OrderDetailDto> {
+    const order = await this.orderRepository.findOne({
+      where: { customerId: customerId, orderId: orderId },
+      relations: {
+        orderItems: true,
+        orderDiscountItem: true,
+      },
+    })
+    if (!order) throw CustomException.notFound('order')
+
+    const orderDetail: OrderDetailDto = {
+      orderId: order.orderId,
+      customerId: order.customerId,
+      storeId: order.storeId,
+      orderItem: order.orderItems,
+      orderDiscountItem: order.orderDiscountItem,
+    }
+
+    return orderDetail
   }
 }

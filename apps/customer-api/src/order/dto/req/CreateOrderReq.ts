@@ -6,9 +6,4 @@ export class CreateOrderReq {
   @IsNotEmpty()
   @IsNumber()
   checkoutId: number
-
-  // @ApiProperty()
-  // @IsNotEmpty()
-  // @IsNumber()
-  // customerId: number
 }

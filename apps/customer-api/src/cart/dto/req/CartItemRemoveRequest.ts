@@ -6,9 +6,4 @@ export class CartItemRemoveRequest {
   @IsNotEmpty()
   @IsNumber()
   cartItemId: number
-
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsNumber()
-  customerId: number
 }

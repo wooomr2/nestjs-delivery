@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { BaseEntity } from '../base/base.entity'
+import { Order } from './order.entity'
 
 @Entity()
 export class OrderItem extends BaseEntity {
@@ -17,4 +18,8 @@ export class OrderItem extends BaseEntity {
 
   @Column({ comment: '주문 수량' })
   quantity: number
+
+  @ManyToOne(() => Order, order => order.orderItems)
+  @JoinColumn({ name: 'order_id' })
+  order: Order
 }

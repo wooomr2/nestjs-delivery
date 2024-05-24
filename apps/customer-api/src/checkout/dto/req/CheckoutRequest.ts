@@ -5,11 +5,6 @@ export class CheckoutRequest {
   @ApiProperty()
   @IsNotEmpty()
   @IsNumber()
-  customerId: number
-
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsNumber()
   storeId: number
 
   @ApiProperty()
